@@ -63,15 +63,10 @@
             fill: none;
             stroke: rgba(255, 255, 255, 0.1);
             stroke-width: 12;
-            cx: 200;
-            cy: 200;
-            r: 180;
         }
 
         .progress-circle.active {
             stroke: #00ff88;
-            stroke-dasharray: 1130;
-            stroke-dashoffset: 1130;
             transition: stroke-dashoffset 1s ease;
             filter: drop-shadow(0 0 10px #00ff88);
         }
@@ -156,12 +151,6 @@
                 height: 300px;
             }
             
-            .progress-circle {
-                cx: 150;
-                cy: 150;
-                r: 130;
-            }
-            
             .days-number {
                 font-size: 3rem;
             }
@@ -187,9 +176,9 @@
     
     <div id="countdown" class="countdown-circle">
         <div class="circle-bg"></div>
-        <svg class="progress-ring">
-            <circle class="progress-circle"></circle>
-            <circle class="progress-circle active" id="progressCircle"></circle>
+        <svg class="progress-ring" viewBox="0 0 400 400">
+            <circle class="progress-circle" cx="200" cy="200" r="180"></circle>
+            <circle class="progress-circle active" id="progressCircle" cx="200" cy="200" r="180"></circle>
         </svg>
         <div class="countdown-text">
             <div class="days-number" id="daysNumber">0</div>
@@ -229,7 +218,10 @@
                 const progress = (totalTime - difference) / totalTime;
                 const circumference = 2 * Math.PI * 180; // r = 180
                 const offset = circumference - (progress * circumference);
-                document.getElementById('progressCircle').style.strokeDashoffset = offset;
+                
+                const progressCircle = document.getElementById('progressCircle');
+                progressCircle.style.strokeDasharray = circumference;
+                progressCircle.style.strokeDashoffset = offset;
 
             } else {
                 document.getElementById('countdown').style.display = 'none';
