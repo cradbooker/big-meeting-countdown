@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown to November 4, 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .countdown-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .date {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .countdown-display {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .time-unit {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .time-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .time-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .milestone {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #ffeb3b;
+            text-align: left;
+        }
+
+        .milestone.passed {
+            background: rgba(76, 175, 80, 0.2);
+            border-left-color: #4caf50;
+        }
+
+        .milestone.upcoming {
+            background: rgba(255, 235, 59, 0.2);
+            border-left-color: #ffeb3b;
+        }
+
+        .milestone-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .milestone-date {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .milestones-container {
+            margin-top: 30px;
+            text-align: left;
+            max-width: 400px;
+        }
+
+        .finished {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffeb3b;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .countdown-container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .countdown-display {
+                gap: 15px;
+            }
+            
+            .time-unit {
+                min-width: 80px;
+                padding: 15px;
+            }
+            
+            .time-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="countdown-container">
+        <h1 class="title">Countdown to Big Meeting 2025!</h1>
+        <p class="date">November 4, 2025</p>
+        
+        <div id="countdown" class="countdown-display">
+            <div class="time-unit">
+                <span id="days" class="time-number">0</span>
+                <span class="time-label">Days</span>
+            </div>
+            <div class="time-unit">
+                <span id="hours" class="time-number">0</span>
+                <span class="time-label">Hours</span>
+            </div>
+            <div class="time-unit">
+                <span id="minutes" class="time-number">0</span>
+                <span class="time-label">Minutes</span>
+            </div>
+            <div class="time-unit">
+                <span id="seconds" class="time-number">0</span>
+                <span class="time-label">Seconds</span>
+            </div>
+        </div>
+        
+        <div id="finished" class="finished" style="display: none;">
+            Time's Up! 🎉
+        </div>
+
+        <div class="milestones-container">
+            <h3 class="milestones-title">Key Milestones</h3>
+            <div id="milestones"></div>
+        </div>
+    </div>
+
+    <script>
+        function updateCountdown() {
+            const targetDate = new Date('November 4, 2025 00:00:00').getTime();
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = days;
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            } else {
+                document.getElementById('countdown').style.display = 'none';
+                document.getElementById('finished').style.display = 'block';
+            }
+        }
+
+        function updateMilestones() {
+            const targetDate = new Date('November 4, 2025 00:00:00').getTime();
+            const now = new Date().getTime();
+            const daysUntilTarget = Math.floor((targetDate - now) / (1000 * 60 * 60 * 24));
+
+            const milestones = [
+                { days: 120, title: '120 Days Out', description: '4 months to prepare' },
+                { days: 90, title: '90 Days Out', description: '3 months milestone' },
+                { days: 60, title: '60 Days Out', description: '2 months to go' },
+                { days: 30, title: '30 Days Out', description: 'Final month countdown' }
+            ];
+
+            const milestonesContainer = document.getElementById('milestones');
+            milestonesContainer.innerHTML = '';
+
+            milestones.forEach(milestone => {
+                const milestoneDiv = document.createElement('div');
+                milestoneDiv.className = 'milestone';
+                
+                if (daysUntilTarget <= milestone.days) {
+                    milestoneDiv.classList.add('passed');
+                } else {
+                    milestoneDiv.classList.add('upcoming');
+                }
+
+                const milestoneDate = new Date(targetDate - (milestone.days * 24 * 60 * 60 * 1000));
+                const dateString = milestoneDate.toLocaleDateString('en-US', { 
+                    month: 'long', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                });
+
+                milestoneDiv.innerHTML = `
+                    <div class="milestone-title">${milestone.title}</div>
+                    <div class="milestone-date">${dateString} - ${milestone.description}</div>
+                `;
+
+                milestonesContainer.appendChild(milestoneDiv);
+            });
+        }
+
+        // Update immediately
+        updateCountdown();
+        updateMilestones();
+        
+        // Update every second
+        setInterval(updateCountdown, 1000);
+        
+        // Update milestones daily (or when page loads)
+        setInterval(updateMilestones, 60000); // Check every minute for milestone updates
+    </script>
+</body>
+</html>
